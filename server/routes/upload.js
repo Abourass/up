@@ -4,9 +4,9 @@ const router = module.exports = new Router();
 const formidable = require('formidable');
 const util = require('util');
 
-router.get('/', async(ctx, next) => { ctx.body = {"title": "Why are you even seeing this page?"} });
+router.prefix('/upload'); // Create route prefix for this file
 
-router.get('/upload', async(ctx, next) => {
+router.get('/', async(ctx, next) => {
   try {
     ctx.set('Content-type', 'text/html');
     ctx.body = `<form action="/upload" enctype="multipart/form-data" method="post">
@@ -17,9 +17,10 @@ router.get('/upload', async(ctx, next) => {
   } catch (e) {console.error(e);}
 });
 
-router.post('/upload', koaBody, async(ctx, next) => {
+router.post('/', koaBody, async(ctx, next) => {
+  console.log(ctx.request.body);
   console.log('fields: ', ctx.request.body);
   console.log('Files: ', ctx.request.files);
-  ctx.body = JSON.stringify(ctx.request.body, null, 2)
+  ctx.body = ctx.request.files;
 });
 module.exports = router;

@@ -1,5 +1,6 @@
-const ip = require('ip');
-const app = require('../index');
+'use strict';
+// Set up Enivironmental Variables
+require('dotenv').config();
 
 function normalizePort(val) { // ========================================| Normalize a port into a number, string, or false
   const port = parseInt(val, 10);
@@ -8,4 +9,6 @@ function normalizePort(val) { // ========================================| Norma
   return false;
 }
 const port = normalizePort(process.env.PORT || '2777'); // Get port from environment
-app.listen(port);
+const mongo = {uri: process.env.mongoURI, config: {useNewUrlParser: true,  useUnifiedTopology: true}};
+module.exports = {port, mongo};
+

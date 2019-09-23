@@ -1,19 +1,27 @@
 {
-  "name": "the-final-upload-solution",
+  "name": "up",
   "version": "1.0.0",
   "description": "",
-  "main": "./src/bin/server.js",
+  "main": "./server/index.js",
   "scripts": {
-    "start": "npx nodemon ./src/bin/server.js"
+    "start": "npx nodemon ./server/index.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@koa/router": "^8.0.1",
+    "dotenv": "^8.1.0",
+    "formidable": "latest",
+    "glob": "^7.1.4",
     "ip": "^1.1.5",
+    "jsonwebtoken": "^8.5.1",
     "koa": "^2.8.1",
     "koa-body": "^4.1.1",
+    "koa-helmet": "^5.1.0",
+    "koa-jwt": "^3.6.0",
+    "koa-logger": "^3.2.1",
+    "mongoose": "^5.7.1",
     "util": "^0.12.1"
   }
 }
