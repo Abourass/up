@@ -1,0 +1,20 @@
+{
+  "name": "the-final-upload-solution",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./src/bin/server.js",
+  "scripts": {
+    "dev": "npx nodemon ./src/bin/server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "formidable": "^1.2.1",
+    "@koa/router": "^8.0.1",
+    "ip": "^1.1.5",
+    "koa": "^2.8.1",
+    "koa-body": "^4.1.1",
+    "util": "^0.12.1"
+  }
+}
