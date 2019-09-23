@@ -4,13 +4,12 @@
   "description": "",
   "main": "./src/bin/server.js",
   "scripts": {
-    "dev": "npx nodemon ./src/bin/server.js"
+    "start": "npx nodemon ./src/bin/server.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "formidable": "^1.2.1",
     "@koa/router": "^8.0.1",
     "ip": "^1.1.5",
     "koa": "^2.8.1",
