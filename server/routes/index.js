@@ -1,14 +1,13 @@
-const {routesLoader} = require('../utils/routesLoader');
+import routesLoader from '../utils/routesLoader';
 
-const routing = (app) => {
+export default function(app) {
   routesLoader(`${__dirname}`).then(files => {
     files.forEach(route => {
       app.use(route.routes()).use(
         route.allowedMethods({
           throw: true
         })
-      )
-    })
-  })
-};
-module.exports = {routing};
+      );
+    });
+  });
+}

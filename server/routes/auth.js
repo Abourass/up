@@ -1,6 +1,8 @@
-const Router = require('@koa/router'), authenticate = require('../middleware/authenticate');
-const koaBody = require('koa-body')({multipart:true}), router = new Router();
+import Router from '@koa/router';
+import authenticate from '../middleware/authenticate.js';
+import koaBody from 'koa-body';
+const router = new Router();
 
 router.prefix('/api/auth'); // Create route prefix for this file
 router.post('/', koaBody, authenticate); // POST /api/auth
-module.exports = router;
+export default router;

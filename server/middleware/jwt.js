@@ -1,3 +1,4 @@
-const jsonWebToken = require('koa-jwt');
-const jwt = jsonWebToken({secret: process.env.jsonSecret});
-module.exports = jwt;
+import jsonWebToken from 'koa-jwt';
+
+export const jwt = jsonWebToken({secret: process.env.jsonSecret});
+export default jwt;

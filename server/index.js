@@ -1,13 +1,14 @@
-const Koa = require('koa'), koaBody = require('koa-body'), logger = require('koa-logger'), helmet = require('koa-helmet'),
-  mongoose = require('mongoose'), {port, mongo} = require('./utils/port'), ip = require('ip'), {routing} = require('./routes');
-const fs = require('fs'), path = require('path'), models = path.join(__dirname, './models');
-
+const koaBody = require('koa-body');
+const Koa = require('koa');
+const logger = require('koa-logger');
+const mongoose = require('mongoose');
+const helmet = require('koa-helmet');
+const ip = require('ip');
+const routing = require('./routes/index.js';
+const {port, mongo} = require('./utils/port.js');
 mongoose.connect(mongo.uri, mongo.config).catch(err => console.error); // Create Database Connection
 
-const app = module.exports = new Koa(); // Create Koa Server
-
-// Load All Models eslint-disable-next-line global-require,import/no-dynamic-require,security/detect-non-literal-require,no-bitwise
-fs.readdirSync('server/models').filter(file => ~file.search(/^[^.].*\.js$/)).forEach(file => require(path.join(models, file)));
+const app = new Koa(); // Create Koa Server
 
 app.use(logger()).use(koaBody()).use(helmet()); // Invoke Middleware
 

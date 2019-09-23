@@ -1,6 +1,6 @@
-const jwt = require('jsonwebtoken');
+import jwt from 'jsonwebtoken';
 
-const authenticate = ctx => {
+export const authenticate = ctx => {
   if (ctx.request.body.password === 'password') {
     ctx.status = 200;
     ctx.body = { token: jwt.sign({role: 'admin'}, process.env.jsonSecret), message: 'Authenticated Successfully' };
@@ -10,4 +10,4 @@ const authenticate = ctx => {
   }
   return ctx;
 };
-module.exports = authenticate;
+export default authenticate;

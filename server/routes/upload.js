@@ -1,8 +1,8 @@
-const Router = require('@koa/router');
-const koaBody = require('koa-body')({multipart:true});
-const router = module.exports = new Router();
-const formidable = require('formidable');
-const util = require('util');
+import Router from '@koa/router';
+import koaBody from 'koa-body';
+import ClientController from '../controllers/client.js';
+import jwt from '../middleware/jwt.js';
+export const router = new Router();
 
 router.prefix('/upload'); // Create route prefix for this file
 
@@ -23,4 +23,4 @@ router.post('/', koaBody, async(ctx, next) => {
   console.log('Files: ', ctx.request.files);
   ctx.body = ctx.request.files;
 });
-module.exports = router;
+export default router;

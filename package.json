@@ -1,19 +1,40 @@
 {
   "name": "up",
   "version": "1.0.0",
-  "description": "",
-  "main": "./server/index.js",
+  "engines": {
+    "node": "12.10.0",
+    "npm": "6.11.2"
+  },
+  "stack": "heroku-18",
+  "type": "module",
+  "description": "File upload and parsing engine for the Veritas platform",
+  "main": "./dist/server/index.js",
   "scripts": {
-    "start": "npx nodemon ./server/index.js"
+    "build": "./node_modules/.bin/babel src/server --out-dir dist/server",
+    "serverStart": "nodemon -r dotenv/config ./dist/server/index.js",
+    "prestart": "node -r dotenv/config ./dist/server/utils/buildClientDB.js dotenv_config_path=.env && node -r dotenv/config ./dist/server/utils/buildProjectDB.js dotenv_config_path=.env",
+    "buildClient": "node -r dotenv/config ./dist/server/utils/buildClientDB.js dotenv_config_path=.env",
+    "buildProjects": "node -r dotenv/config ./dist/server/utils/buildProjectDB.js dotenv_config_path=.env",
+    "start": "node -r dotenv/config ./dist/server/parsers/xlsxParser.js dotenv_config_path=.env",
+    "addressVerify": "node  --no-warnings -r dotenv/config ./dist/server/modules/addressVerification.js",
+    "pipeParser": "node ./dist/server/parsers/pipeParser.js",
+    "xmlParser": "node ./dist/server/parsers/xmlParser.js",
+    "test": "snyk test"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@babel/runtime": "^7.6.2",
     "@koa/router": "^8.0.1",
+    "core-js": "^3.2.1",
     "dotenv": "^8.1.0",
-    "formidable": "latest",
+    "fast-xml-parser": "^3.12.20",
+    "fs-extra": "^8.1.0",
+    "fuzzyset.js": "0.0.8",
     "glob": "^7.1.4",
+    "he": "^1.2.0",
+    "import-glob": "^1.5.0",
     "ip": "^1.1.5",
     "jsonwebtoken": "^8.5.1",
     "koa": "^2.8.1",
@@ -21,7 +42,141 @@
     "koa-helmet": "^5.1.0",
     "koa-jwt": "^3.6.0",
     "koa-logger": "^3.2.1",
+    "lob": "^6.0.6",
     "mongoose": "^5.7.1",
-    "util": "^0.12.1"
-  }
+    "papaparse": "^5.1.0",
+    "util": "^0.12.1",
+    "xlsx": "^0.15.1"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.6.2",
+    "@babel/core": "^7.6.2",
+    "@babel/plugin-transform-async-to-generator": "^7.5.0",
+    "@babel/plugin-transform-runtime": "^7.6.2",
+    "@babel/preset-env": "^7.6.2",
+    "@getify/eslint-plugin-proper-ternary": "^3.0.1",
+    "codacy-coverage": "^3.4.0",
+    "eslint": "^6.3.0",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-import-resolver-node": "0.3.2",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-node": "^10.0.0",
+    "eslint-plugin-security": "^1.4.0",
+    "nodemon": "^1.19.2",
+    "snyk": "^1.228.3"
+  },
+  "eslintConfig": {
+    "plugins": [
+      "node",
+      "security",
+      "@getify/proper-ternary"
+    ],
+    "extends": [
+      "airbnb-base",
+      "plugin:node/recommended",
+      "plugin:security/recommended",
+      "plugin:import/errors",
+      "plugin:import/warnings",
+      "plugin:@getify/proper-ternary/getify-says"
+    ],
+    "env": {
+      "shared-node-browser": true,
+      "node": true,
+      "es6": true,
+      "mongo": true,
+      "jquery": true
+    },
+    "rules": {
+      "import/extensions": "off",
+      "security/detect-non-literal-fs-filename": "off",
+      "security/detect-object-injection": "off",
+      "arrow-parens": [
+        "error",
+        "as-needed",
+        {
+          "requireForBlockBody": true
+        }
+      ],
+      "no-unused-vars": "off",
+      "one-var": [
+        "error",
+        {
+          "var": "consecutive",
+          "let": "consecutive",
+          "const": "consecutive"
+        }
+      ],
+      "one-var-declaration-per-line": "off",
+      "consistent-return": "off",
+      "func-names": [
+        "error",
+        "as-needed",
+        {
+          "generators": "as-needed"
+        }
+      ],
+      "max-len": "off",
+      "no-unused-expressions": "off",
+      "no-console": "off",
+      "no-process-exit": "off",
+      "no-shadow": [
+        "error",
+        {
+          "hoist": "never",
+          "allow": [
+            "done",
+            "resolve",
+            "err",
+            "error",
+            "cb",
+            "User",
+            "user",
+            "issue"
+          ]
+        }
+      ],
+      "no-param-reassign": "off",
+      "no-plusplus": "off",
+      "no-lonely-if": "error",
+      "no-new-object": "error",
+      "object-curly-newline": [
+        "error",
+        {
+          "ObjectPattern": {
+            "multiline": true
+          }
+        }
+      ],
+      "no-underscore-dangle": "off",
+      "object-curly-spacing": [
+        "error",
+        "never"
+      ],
+      "object-shorthand": [
+        "error",
+        "consistent"
+      ],
+      "prefer-destructuring": "off",
+      "space-before-blocks": "off",
+      "space-before-function-paren": [
+        "error",
+        "never"
+      ],
+      "prefer-rest-params": "off",
+      "import/newline-after-import": "off"
+    }
+  },
+  "nodemonConfig": {
+    "events": {
+      "start": "cls || clear"
+    },
+    "ignore": [
+      "log/"
+    ]
+  },
+  "browserslist": [
+    "last 2 version",
+    "> 0.25%",
+    "not dead"
+  ]
 }
