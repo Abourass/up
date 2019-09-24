@@ -1,8 +1,8 @@
-import Router from '@koa/router';
-import koaBody from 'koa-body';
-import ClientController from '../controllers/client.js';
-import jwt from '../middleware/jwt.js';
-export const router = new Router();
+const Router = require('@koa/router');
+const koaBody = require('koa-body');
+const ClientController = require('../controllers/client.js');
+const jwt = require('../middleware/jwt.js');
+const router = new Router();
 
 router.prefix('/api/client'); // Create route prefix for this file
 
@@ -13,4 +13,4 @@ router.get('/:id', ClientController.findById); // GET /api/client/id
 router.put('/:id', jwt, koaBody, ClientController.update); // PUT /api/client/id -> This route is protected, call POST /api/auth to get the token
 router.delete('/:id', jwt, koaBody, ClientController.delete); // DELETE /api/client/id -> This route is protected, call POST /api/auth to get the token
 
-export default router;
+module.exports = router;

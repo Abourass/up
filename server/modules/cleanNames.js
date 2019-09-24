@@ -1,4 +1,4 @@
-export const trimName = (str) => {
+const trimName = (str) => {
   try {
     let tempStr = str.match(/.[\s\S]+(?=\.xlsx)/g).toString().match(/(^[A-Z])\w\D+/gi).toString(), correctedString = '', rlmStr = '';
     tempStr.split('').forEach((char, inc) => {
@@ -66,4 +66,4 @@ export const trimName = (str) => {
     console.error(err);
   }
 };
-export default {trimName};
+module.exports = {trimName};

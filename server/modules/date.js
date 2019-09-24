@@ -1,4 +1,4 @@
-export const myGetDate = (date) => {
+const myGetDate = (date) => {
   let today;
   if (!date) {
     today = new Date();
@@ -11,4 +11,4 @@ export const myGetDate = (date) => {
   if (mm < 10) { mm = `0${mm}`; }
   return `${mm}/${dd}/${yyyy}`;
 };
-export default {myGetDate};
+module.exports = {myGetDate};

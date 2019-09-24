@@ -1,7 +1,7 @@
-import parser from 'fast-xml-parser';
-import he from 'he';
+const parser = require('fast-xml-parser');
+const he = require('he');
 
-export const parseXML = (xmlData) => {
+const parseXML = (xmlData) => {
   const options = {
     attributeNamePrefix: '@_',
     attrNodeName: 'attr', // default is 'false'
@@ -25,4 +25,4 @@ export const parseXML = (xmlData) => {
   const tObj = parser.getTraversalObj(xmlData, options); // Intermediate obj
   jsonObj = parser.convertToJson(tObj, options);
 };
-export default {parseXML};
+module.exports = {parseXML};

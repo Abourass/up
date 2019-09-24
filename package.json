@@ -8,24 +8,22 @@
   "stack": "heroku-18",
   "type": "module",
   "description": "File upload and parsing engine for the Veritas platform",
-  "main": "./dist/server/index.js",
+  "main": "./server/index.js",
   "scripts": {
-    "build": "./node_modules/.bin/babel src/server --out-dir dist/server",
-    "serverStart": "nodemon -r dotenv/config ./dist/server/index.js",
-    "prestart": "node -r dotenv/config ./dist/server/utils/buildClientDB.js dotenv_config_path=.env && node -r dotenv/config ./dist/server/utils/buildProjectDB.js dotenv_config_path=.env",
-    "buildClient": "node -r dotenv/config ./dist/server/utils/buildClientDB.js dotenv_config_path=.env",
-    "buildProjects": "node -r dotenv/config ./dist/server/utils/buildProjectDB.js dotenv_config_path=.env",
-    "start": "node -r dotenv/config ./dist/server/parsers/xlsxParser.js dotenv_config_path=.env",
-    "addressVerify": "node  --no-warnings -r dotenv/config ./dist/server/modules/addressVerification.js",
-    "pipeParser": "node ./dist/server/parsers/pipeParser.js",
-    "xmlParser": "node ./dist/server/parsers/xmlParser.js",
+    "serverStart": "nodemon -r dotenv/config ./server/index.js",
+    "prestart": "node -r dotenv/config ./server/utils/buildClientDB.js dotenv_config_path=.env && node -r dotenv/config ./server/utils/buildProjectDB.js dotenv_config_path=.env",
+    "buildClient": "node -r dotenv/config ./server/utils/buildClientDB.js dotenv_config_path=.env",
+    "buildProjects": "node -r dotenv/config ./server/utils/buildProjectDB.js dotenv_config_path=.env",
+    "start": "node -r dotenv/config ./server/parsers/xlsxParser.js dotenv_config_path=.env",
+    "addressVerify": "node  --no-warnings -r dotenv/config ./server/modules/addressVerification.js",
+    "pipeParser": "node ./server/parsers/pipeParser.js",
+    "xmlParser": "node ./server/parsers/xmlParser.js",
     "test": "snyk test"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@babel/runtime": "^7.6.2",
     "@koa/router": "^8.0.1",
     "core-js": "^3.2.1",
     "dotenv": "^8.1.0",
@@ -49,11 +47,6 @@
     "xlsx": "^0.15.1"
   },
   "devDependencies": {
-    "@babel/cli": "^7.6.2",
-    "@babel/core": "^7.6.2",
-    "@babel/plugin-transform-async-to-generator": "^7.5.0",
-    "@babel/plugin-transform-runtime": "^7.6.2",
-    "@babel/preset-env": "^7.6.2",
     "@getify/eslint-plugin-proper-ternary": "^3.0.1",
     "codacy-coverage": "^3.4.0",
     "eslint": "^6.3.0",
@@ -63,7 +56,7 @@
     "eslint-plugin-node": "^10.0.0",
     "eslint-plugin-security": "^1.4.0",
     "nodemon": "^1.19.2",
-    "snyk": "^1.228.3"
+    "snyk": "^1.228.5"
   },
   "eslintConfig": {
     "plugins": [

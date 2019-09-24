@@ -1,4 +1,4 @@
-import Client from '../models/client.js';
+const Client = require('../models/client.js');
 
 class ClientController {
   async find(ctx) { ctx.body = await Client.find();} // Get all clients
@@ -37,4 +37,4 @@ class ClientController {
     }
   }
 }
-export default new ClientController();
+module.exports = new ClientController();

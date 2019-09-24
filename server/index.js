@@ -4,7 +4,7 @@ const logger = require('koa-logger');
 const mongoose = require('mongoose');
 const helmet = require('koa-helmet');
 const ip = require('ip');
-const routing = require('./routes/index.js';
+const routing = require('./routes/index.js');
 const {port, mongo} = require('./utils/port.js');
 mongoose.connect(mongo.uri, mongo.config).catch(err => console.error); // Create Database Connection
 

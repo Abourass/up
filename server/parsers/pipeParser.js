@@ -1,6 +1,6 @@
-import Papa from 'papaparse';
-import fs from 'fs';
-import path from 'path';
+const Papa = require('papaparse');
+const fs = require('fs');
+const path = require('path');
 
 const pipeParser = async() => {
   const writeFile = async(conversionResults) => {

@@ -1,6 +1,6 @@
-import routesLoader from '../utils/routesLoader';
+const routesLoader = require('../utils/routesLoader');
 
-export default function(app) {
+module.exports = function(app) {
   routesLoader(`${__dirname}`).then(files => {
     files.forEach(route => {
       app.use(route.routes()).use(
@@ -10,4 +10,4 @@ export default function(app) {
       );
     });
   });
-}
+};

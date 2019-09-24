@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 // mongoose.Promise = global.Promise; // To fix https://github.com/Automattic/mongoose/issues/4291
 
@@ -49,4 +49,4 @@ const ClientSchema = new Schema({
     },
   ],
 });
-export default mongoose.model('clients', ClientSchema); // Create collection and add Schema
+module.exports = mongoose.model('clients', ClientSchema); // Create collection and add Schema

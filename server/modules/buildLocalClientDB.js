@@ -1,9 +1,9 @@
-import fs from 'fs-extra';
-import path from 'path';
-import {Client} from './database.mjs';
-import {asyncForEach} from './asyncForEach.mjs';
+const fs = require('fs-extra');
+const path = require('path');
+const {Client} = require('./database.mjs');
+const {asyncForEach} = require('./asyncForEach.mjs');
 
-export const buildLocalClientDB = async(clientNames) => {
+const buildLocalClientDB = async(clientNames) => {
   const allClients = [], clientNamesArray = Array.from(clientNames);
   try {
     await asyncForEach(clientNamesArray, (clientName, i) => {
@@ -21,4 +21,4 @@ export const buildLocalClientDB = async(clientNames) => {
     console.error(err);
   }
 };
-export default {buildLocalClientDB};
+module.exports = {buildLocalClientDB};

@@ -1,12 +1,12 @@
-import fs from 'fs';
-import path from 'path';
-import {addProjectID} from '../modules/addProjectID.mjs';
-import {readSpreadsheets} from '../modules/readSpreadsheets.mjs';
-import {asyncForEach} from '../modules/asyncForEach.mjs';
-import {convertToJSON} from '../modules/spreadsheetToJSON.mjs';
-import {trimName} from '../modules/cleanNames.mjs';
-import {correctHeaders} from '../modules/correctHeaders.mjs';
-import {insertDocuments} from '../modules/insertManyToDB.mjs';
+const fs = require('fs');
+const path = require('path');
+const {addProjectID} = require('../modules/addProjectID.mjs');
+const {readSpreadsheets} = require('../modules/readSpreadsheets.mjs');
+const {asyncForEach} = require('../modules/asyncForEach.mjs');
+const {convertToJSON} = require('../modules/spreadsheetToJSON.mjs');
+const {trimName} = require('../modules/cleanNames.mjs');
+const {correctHeaders} = require('../modules/correctHeaders.mjs');
+const {insertDocuments} = require('../modules/insertManyToDB.mjs');
 
 const config = JSON.parse(fs.readFileSync('parser.config.json')),
 

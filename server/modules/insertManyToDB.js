@@ -1,9 +1,9 @@
-import fs from 'fs-extra';
-import {Orders} from './database.mjs';
-import {asyncForEach} from './asyncForEach.mjs';
+const fs = require('fs-extra');
+const {Orders} = require('./database.mjs');
+const {asyncForEach} = require('./asyncForEach.mjs');
 const orderArray = [];
 
-export async function insertDocuments({conversionFolder, loggingLevel} = {}) {
+async function insertDocuments({conversionFolder, loggingLevel} = {}) {
   try {
     const arrayOfFiles = await fs.readdirSync(conversionFolder);
     arrayOfFiles.forEach((JSONFile) => {
@@ -15,4 +15,4 @@ export async function insertDocuments({conversionFolder, loggingLevel} = {}) {
     console.error(e);
   }
 }
-export default {insertDocuments};
+module.exports = {insertDocuments};

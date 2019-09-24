@@ -1,8 +1,8 @@
-import fs from 'fs-extra';
-import path from 'path';
-import {Project} from '../modules/database.mjs';
-import {asyncForEach} from '../modules/asyncForEach.mjs';
-import {myGetDate} from '../modules/date.mjs';
+const fs = require('fs-extra');
+const path = require('path');
+const {Project} = require('../modules/database.mjs');
+const {asyncForEach} = require('../modules/asyncForEach.mjs');
+const {myGetDate} = require('../modules/date.mjs');
 
 function wasCreatedToday(currentValue){
   if (currentValue == null) { return false; }

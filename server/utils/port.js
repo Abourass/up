@@ -5,7 +5,7 @@ function normalizePort(val) { // ========================================| Norma
   return false;
 }
 
-export const port = normalizePort(process.env.PORT || '2777'); // Get port from environment
-export const mongo = {uri: process.env.mongoURI.toString(), config: {useNewUrlParser: true,  useUnifiedTopology: true}};
-export default {port, mongo};
+const port = normalizePort(process.env.PORT || '2777'); // Get port from environment
+const mongo = {uri: process.env.mongoURI.toString(), config: {useNewUrlParser: true,  useUnifiedTopology: true}};
+module.exports = {port, mongo};
 

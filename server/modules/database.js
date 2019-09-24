@@ -1,4 +1,4 @@
-import mongoose from 'mongoose'; const Schema = mongoose.Schema;
+const mongoose = require('mongoose'); const Schema = mongoose.Schema;
 mongoose.connect(process.env.mongoURI, {useNewUrlParser: true}).catch(err => console.error(err));
 
 const ClientSchema = new Schema({
@@ -50,4 +50,4 @@ const ClientSchema = new Schema({
     project: {type: Schema.Types.ObjectId, ref: 'projects'},
     log: {type: Array},
   }), Orders = mongoose.model('orders', OrderSchema);
-export {Client, Project, Orders};
+{Client, Project, Orders};

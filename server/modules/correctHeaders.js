@@ -1,9 +1,9 @@
-import FuzzySet from 'fuzzyset.js';
-import {asyncForEach} from './asyncForEach.mjs';
+const FuzzySet = require('fuzzyset.js');
+const {asyncForEach} = require('./asyncForEach.mjs');
 
 const renameProp = (oldProp, newProp, {[oldProp]: old, ...others}) => ({[newProp]: old, ...others});
 
-export const correctHeaders = async({arrayOfJSON, customDictionary, minConfidence, loggingLevel} = {}) => {
+const correctHeaders = async({arrayOfJSON, customDictionary, minConfidence, loggingLevel} = {}) => {
   try {
     const arrayOfCorrectedJSON = [];
     await asyncForEach(arrayOfJSON, async(json) => {
@@ -52,4 +52,4 @@ export const correctHeaders = async({arrayOfJSON, customDictionary, minConfidenc
     console.error(err);
   }
 };
-export default {correctHeaders};
+module.exports = {correctHeaders};

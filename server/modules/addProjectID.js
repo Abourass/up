@@ -1,11 +1,11 @@
-import fs from 'fs';
-import path from 'path';
-import {asyncForEach} from './asyncForEach.mjs';
+const fs = require('fs');
+const path = require('path');
+const {asyncForEach} = require('./asyncForEach.mjs');
 
 const clientDB = JSON.parse(fs.readFileSync(path.join('db', 'clientDB.json'), 'utf8')),
   projectDB = JSON.parse(fs.readFileSync(path.join('db', 'projectDB.json'), 'utf8'));
 
-export const addProjectID = async({convert, name} = {}) => {
+const addProjectID = async({convert, name} = {}) => {
   const correctedArray = [];
   await asyncForEach(clientDB, async(client) => {
     if (client.name === name){
@@ -22,4 +22,4 @@ export const addProjectID = async({convert, name} = {}) => {
   });
   return correctedArray;
 };
-export default {addProjectID};
+module.exports = {addProjectID};
