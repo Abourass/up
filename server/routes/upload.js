@@ -1,25 +1,26 @@
 const Router = require('@koa/router');
-const koaBody = require('koa-body');
-const jwt = require('../middleware/jwt.js');
 const router = new Router();
+const {orderUpload} = require('../controllers/uploadController');
+const ClientController = require('../controllers/client');
+const jwt = require('../middleware/jwt.js');
+const fs = require('fs');
+const path = require('path');
 
 router.prefix('/upload'); // Create route prefix for this file
 
 router.get('/', async(ctx, next) => {
   try {
     ctx.set('Content-type', 'text/html');
-    ctx.body = `<form action="/upload" enctype="multipart/form-data" method="post">
-    <input type="text" name="title"><br>
-    <input type="file" name="upload" multiple="multiple"><br>
-    <input type="submit" value="Upload">
-    </form>`;
+    const url = path.join(__dirname, '../', '../', 'html', 'uploadForm.html');
+    const html = fs.readFileSync(url);
+    ctx.body = await html
   } catch (e) {console.error(e);}
 });
 
-router.post('/', koaBody, async(ctx, next) => {
-  console.log(ctx.request.body);
-  console.log('fields: ', ctx.request.body);
-  console.log('Files: ', ctx.request.files);
-  ctx.body = ctx.request.files;
-});
+router.post('/', jwt, orderUpload.array('upload', 20), async ctx => {
+  try {
+    const client = await ClientController.findByToken(ctx, 'name');
+    ctx.body = 'Successfully uploaded ' + ctx.files.length + ' files for ' + client + '!';
+  }catch (err) {ctx.body = err}
+  });
 module.exports = router;

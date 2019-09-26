@@ -1,7 +1,7 @@
 const fs = require('fs-extra');
 const path = require('path');
-const {Client} = require('./database.mjs');
-const {asyncForEach} = require('./asyncForEach.mjs');
+const {Client} = require('./database.js');
+const {asyncForEach} = require('./asyncForEach.js');
 
 const buildLocalClientDB = async(clientNames) => {
   const allClients = [], clientNamesArray = Array.from(clientNames);

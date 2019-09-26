@@ -1,5 +1,5 @@
 const FuzzySet = require('fuzzyset.js');
-const {asyncForEach} = require('./asyncForEach.mjs');
+const {asyncForEach} = require('./asyncForEach.js');
 
 const renameProp = (oldProp, newProp, {[oldProp]: old, ...others}) => ({[newProp]: old, ...others});
 

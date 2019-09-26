@@ -12,8 +12,18 @@ class ClientController {
       ctx.throw(500);
     }
   }
+  async findByToken(ctx, key) {
+    try {
+      const token = await ctx.headers.authorization.substring(7, ctx.headers.authorization.length).toString();
+      const client = await Client.findOne({jsonToken: token});
+      if (!client){ctx.throw(404)}
+      return client[key];
+    } catch (err) {
+      if (err.name === 'CastError') { ctx.throw(404, err); }
+      ctx.throw(500);
+    }
+  }
   async add(ctx) { // Add A client
-    console.log(ctx.request.body);
     try { ctx.body = await new Client(ctx.request.body).save(); } catch (err) { ctx.throw(422, err); }
   }
   async update(ctx) { // Update client

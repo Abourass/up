@@ -1,6 +1,6 @@
 const fs = require('fs-extra');
-const {Orders} = require('./database.mjs');
-const {asyncForEach} = require('./asyncForEach.mjs');
+const {Orders} = require('./database.js');
+const {asyncForEach} = require('./asyncForEach.js');
 const orderArray = [];
 
 async function insertDocuments({conversionFolder, loggingLevel} = {}) {

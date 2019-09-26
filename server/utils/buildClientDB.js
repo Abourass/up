@@ -1,7 +1,7 @@
-const {readSpreadsheets} = require('../modules/readSpreadsheets.mjs');
-const {asyncForEach} = require('../modules/asyncForEach.mjs');
-const {trimName} = require('../modules/cleanNames.mjs');
-const {buildLocalClientDB} = require('../modules/buildLocalClientDB.mjs');
+const {readSpreadsheets} = require('../modules/readSpreadsheets.js');
+const {asyncForEach} = require('../modules/asyncForEach.js');
+const {trimName} = require('../modules/cleanNames.js');
+const {buildLocalClientDB} = require('../modules/buildLocalClientDB.js');
 
 const buildClientDB = async() => {
   try {

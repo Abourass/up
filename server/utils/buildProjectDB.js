@@ -1,8 +1,8 @@
 const fs = require('fs-extra');
 const path = require('path');
-const {Project} = require('../modules/database.mjs');
-const {asyncForEach} = require('../modules/asyncForEach.mjs');
-const {myGetDate} = require('../modules/date.mjs');
+const {Project} = require('../modules/database.js');
+const {asyncForEach} = require('../modules/asyncForEach.js');
+const {myGetDate} = require('../modules/date.js');
 
 function wasCreatedToday(currentValue){
   if (currentValue == null) { return false; }

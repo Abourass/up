@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const {asyncForEach} = require('./asyncForEach.mjs');
+const {asyncForEach} = require('./asyncForEach.js');
 
 const clientDB = JSON.parse(fs.readFileSync(path.join('db', 'clientDB.json'), 'utf8')),
   projectDB = JSON.parse(fs.readFileSync(path.join('db', 'projectDB.json'), 'utf8'));
