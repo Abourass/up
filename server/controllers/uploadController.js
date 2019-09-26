@@ -3,20 +3,20 @@ const multer = require('@koa/multer');
 const multerS3 = require('multer-s3');
 const ClientController = require('./client');
 const {spreadsheetFilter} = require('../modules/fileFilters');
+const mimeTypes = require('../modules/mimeTypes');
 
 AWS.config.update({
   secretAccessKey: process.env.AWS_S3_Secret_Access_Key,
   accessKeyId: process.env.AWS_S3_Access_Key_ID,
   region: 'us-west-1',
 });
-
 const s3 = new AWS.S3();
 
 const orderUpload = multer({
   spreadsheetFilter,
   storage: multerS3({
     s3: s3,
-    bucket: 'vertias-pre-spreadsheets',
+    bucket: 'veritasorders',
     cacheControl: 'max-age=31536000',
     acl: 'public-read',
     contentType: multerS3.AUTO_CONTENT_TYPE,
@@ -34,6 +34,10 @@ const orderUpload = multer({
         cb(null, `${client}-${new Date().getUTCMilliseconds()}${Math.floor((Math.random() * 250) + 1)}.xls`);
       } else if (file.mimetype === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') {
         cb(null, `${client}-${new Date().getUTCMilliseconds()}${Math.floor((Math.random() * 250) + 1)}.xlsx`);
+      } else if (file.mimetype === mimeTypes.text) {
+        cb(null, `${client}-${new Date().getUTCMilliseconds()}${Math.floor((Math.random() * 250) + 1)}.txt`);
+      } else if (file.mimetype === mimeTypes.xml) {
+        cb(null, `${client}-${new Date().getUTCMilliseconds()}${Math.floor((Math.random() * 250) + 1)}.xml`);
       } else {
         return false;
       }

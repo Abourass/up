@@ -36,12 +36,11 @@ const developmentFilter = (req, file, cb) => {
   }
 };
 
-const spreadsheetFilter = (req, file, cb) => {
-  console.log('Entering multer');
-  if (mimeTypes.spreadsheets.includes(file.mimetype)) {
+const orderFilter = (req, file, cb) => {
+  if (mimeTypes.spreadsheets.includes(file.mimetype) || mimeTypes.xml === file.mimetype || mimeTypes.text === file.mimetype) {
     cb(null, true);
   } else {
     cb(new Error('Invalid file type, only XLS and XLSX are allowed!'), false);
   }
 };
-module.exports = {photoFilter, pdfSpreadFilter, pdfFilter, documentFilter, developmentFilter, spreadsheetFilter};
+module.exports = {photoFilter, pdfSpreadFilter, pdfFilter, documentFilter, developmentFilter, orderFilter};
