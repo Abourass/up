@@ -1,7 +1,7 @@
 const Router = require('@koa/router');
 const koaBody = require('koa-body');
-const ClientController = require('../controllers/client.js');
-const jwt = require('../middleware/jwt.js');
+const ClientController = require('../controllers/clientController');
+const jwt = require('../middleware/jwt');
 const router = new Router();
 
 router.prefix('/api/client'); // Create route prefix for this file

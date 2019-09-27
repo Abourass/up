@@ -1,4 +1,4 @@
-const mimeTypes = require('./mimeTypes');
+const mimeTypes = require('../modules/mimeTypes');
 
 const photoFilter = (req, file, cb) => {
   if (mimeTypes.images.includes(file.mimetype)) {

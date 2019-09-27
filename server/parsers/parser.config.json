@@ -1,5 +1,5 @@
 {
-  "logging": "simple",
+  "logging": "verbose",
   "assetFolder": "./assets/",
   "conversionFolder": "./converted_orders/",
   "unsortedFolder": "./unsorted/",

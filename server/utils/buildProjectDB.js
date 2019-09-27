@@ -9,7 +9,7 @@ function wasCreatedToday(currentValue){
   return myGetDate(currentValue.created).toString() === myGetDate().toString();
 }
 
-const buildProjectDB = async() => {
+const buildProjectDB = async({clientID} = {}) => {
   try {
     const clientDB = Array.from(JSON.parse(fs.readFileSync(path.join('db', 'clientDB.json'), 'utf-8'))), projectDB = [];
     await asyncForEach(clientDB, async(client, i) => {
@@ -35,7 +35,6 @@ const buildProjectDB = async() => {
         });
       }
     });
-    process.exit(0);
   } catch (err){
     console.error(err);
   }

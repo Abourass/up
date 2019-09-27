@@ -3,7 +3,7 @@ const {asyncForEach} = require('./asyncForEach.js');
 
 const renameProp = (oldProp, newProp, {[oldProp]: old, ...others}) => ({[newProp]: old, ...others});
 
-const correctHeaders = async({arrayOfJSON, customDictionary, minConfidence, loggingLevel} = {}) => {
+const serializeJSON = async({arrayOfJSON, customDictionary, minConfidence, loggingLevel} = {}) => {
   try {
     const arrayOfCorrectedJSON = [];
     await asyncForEach(arrayOfJSON, async(json) => {
@@ -52,4 +52,4 @@ const correctHeaders = async({arrayOfJSON, customDictionary, minConfidence, logg
     console.error(err);
   }
 };
-module.exports = {correctHeaders};
+module.exports = serializeJSON;

@@ -1,6 +1,6 @@
 const {readSpreadsheets} = require('../modules/readSpreadsheets.js');
 const {asyncForEach} = require('../modules/asyncForEach.js');
-const {trimName} = require('../modules/cleanNames.js');
+const {trimName} = require('../modules/cleanClientNameString.js');
 const {buildLocalClientDB} = require('../modules/buildLocalClientDB.js');
 
 const buildClientDB = async() => {

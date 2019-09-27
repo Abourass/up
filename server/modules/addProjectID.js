@@ -1,25 +1,15 @@
-const fs = require('fs');
-const path = require('path');
 const {asyncForEach} = require('./asyncForEach.js');
+const projectController = require('../controllers/projectController');
+const insertMany = require('./insertManyToDB');
 
-const clientDB = JSON.parse(fs.readFileSync(path.join('db', 'clientDB.json'), 'utf8')),
-  projectDB = JSON.parse(fs.readFileSync(path.join('db', 'projectDB.json'), 'utf8'));
-
-const addProjectID = async({convert, name} = {}) => {
+const addProjectID = async({arrayOfOrders, clientID, clientName} = {}) => {
   const correctedArray = [];
-  await asyncForEach(clientDB, async(client) => {
-    if (client.name === name){
-      await asyncForEach(projectDB, async(project) => {
-        if (project.client === client._id){
-          await asyncForEach(convert, async(jsonObj) => {
-            jsonObj.project = project._id;
-            correctedArray.push(jsonObj);
-          });
-          return project._id;
-        }
-      });
-    }
+  const projectID = await projectController.add(clientID, clientName);
+  await asyncForEach(arrayOfOrders, async(order) => {
+    order.project = projectID;
+    correctedArray.unshift(order);
+  }).finally(async() =>{
+    await insertMany(correctedArray);
   });
-  return correctedArray;
 };
 module.exports = {addProjectID};

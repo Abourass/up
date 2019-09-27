@@ -1,18 +1,13 @@
 const fs = require('fs-extra');
-const {Orders} = require('./database.js');
-const {asyncForEach} = require('./asyncForEach.js');
+const Orders = require('../models/ordersModel');
 const orderArray = [];
 
-async function insertDocuments({conversionFolder, loggingLevel} = {}) {
+async function insertMany({orderArray, loggingLevel} = {}) {
   try {
-    const arrayOfFiles = await fs.readdirSync(conversionFolder);
-    arrayOfFiles.forEach((JSONFile) => {
-      orderArray.push(JSON.parse(fs.readFileSync(conversionFolder + JSONFile, 'utf-8')));
-    });
     await Orders.insertMany(orderArray);
     return `Inserted ${orderArray.length} into your collection`;
   } catch (e) {
     console.error(e);
   }
 }
-module.exports = {insertDocuments};
+module.exports = insertMany;
