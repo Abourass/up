@@ -39,7 +39,9 @@ class ProjectController {
     } catch (err) { console.error(err) }
   }
   async check(client) {
+    let projectIndex, projectID;
     const currentProjects = await this.findByClient(client);
+    console.log('Current Projects: ', currentProjects);
     const humanTime = timeStr => {
       const now = new Date(timeStr);
       return {
@@ -50,14 +52,16 @@ class ProjectController {
         year: now.getUTCFullYear()
       }
     };
-    let projectIndex, projectID;
     currentProjects.projects.forEach((project, i) => {
       const time = humanTime(project.date);
+      console.log('The projects time stamp was: ', time);
       const today = humanTime(Date.now());
+      console.log('Today is: ', today);
       if (time.year === today.year
         && time.month === today.month
         && time.day === today.day
         && time.hour === today.hour){
+        console.log('Times match! At iterator: ', i);
         projectIndex = i;
         projectID = project._id;
       }

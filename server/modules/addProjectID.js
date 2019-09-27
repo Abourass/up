@@ -5,11 +5,14 @@ const insertMany = require('./insertManyToDB');
 const addProjectID = async({arrayOfOrders, clientID, clientName} = {}) => {
   const correctedArray = [];
   const projectID = await projectController.add(clientID, clientName);
+  console.log('Project ID', projectID);
   await asyncForEach(arrayOfOrders, async(order) => {
     order.project = projectID;
+    console.log('order.project: ', order.project);
     correctedArray.unshift(order);
-  }).finally(async() =>{
-    await insertMany(correctedArray);
+    console.log(correctedArray.length);
+  }).finally(async() => {
+    await insertMany({orderArray: correctedArray});
   });
 };
 module.exports = {addProjectID};
