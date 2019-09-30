@@ -6,8 +6,8 @@ const jwt = require('../middleware/jwt.js');
 const fs = require('fs');
 const path = require('path');
 const xlsxParser = require('../parsers/xlsxParser');
+const xmlParser = require('../parsers/xmlParser');
 const mimeTypes = require('../modules/mimeTypes');
-const asyncForEach = require('../modules/asyncForEach');
 
 router.prefix('/upload'); // Create route prefix for this file
 
@@ -26,7 +26,15 @@ router.post('/', jwt, orderUpload.array('upload', 20), async ctx => {
     const clientID = await ClientController.findByToken(ctx, '_id');
     const files = await ctx.files;
     for (const file of files) {
-      await xlsxParser({bucket: file.bucket, key: file.key, clientID: clientID, clientName: client});
+      if (mimeTypes.spreadsheets.contains(file.mimetype)){
+        await xlsxParser({bucket: file.bucket, key: file.key, clientID: clientID, clientName: client});
+      } else if (file.mimetype === mimeTypes.xml){
+        await xmlParser({bucket: file.bucket, key: file.key, clientID: clientID, clientName: client})
+      } else if (file.mimetype === mimeTypes.text) {
+
+      } else {
+
+      }
     }
     ctx.body = await files;
   }catch (err) {ctx.body = err}

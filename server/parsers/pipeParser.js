@@ -3,16 +3,9 @@ const fs = require('fs');
 const path = require('path');
 
 const pipeParser = async() => {
-  const writeFile = async(conversionResults) => {
+  const readFile = async(orderFile) => {
       try {
-        await fs.writeFile(path.join('assets', 'conversionResults.json'), JSON.stringify(conversionResults, null, 2), (err => console.error(err)));
-        console.log('File Written');
-      } catch (err) { console.error(err); }
-    },
-
-    readFile = async() => {
-      try {
-        fs.readFile(path.join('assets', 'OrderFile.txt'), 'utf8', (err, contents) => {
+        const contents = orderFile;
           if (!contents) {
             console.error('Failed to read input');
             process.exit(1);
@@ -32,7 +25,7 @@ const pipeParser = async() => {
             step: undefined,
             complete: async function(results, file) {
               console.log('Parsing complete:');
-              await writeFile(results);
+              return await results;
             // console.log(results); console.log(file);
             },
             error: undefined,
@@ -46,10 +39,18 @@ const pipeParser = async() => {
             transform: undefined,
             delimitersToGuess: [',', '\t', '|', ';', Papa.RECORD_SEP, Papa.UNIT_SEP],
           });
-        });
+
       } catch (err) { console.error(err); }
     };
-  await readFile();
+
+  s3.getObject({ Bucket: bucket, Key: key}, async(err, data) => {
+    if (err) console.error(err);
+    const pipeFile = await data.Body.toString();
+    const fileAsJSON = await parseXML(xmlFile); // convert it to JSON
+    const dbSerializedJSON = await serializeJSON({arrayOfJSON: fileAsJSON, customDictionary: config.customDictionary, minConfidence: config.minConfidence, loggingLevel: config.logging}); // serialize the JSON keys
+    await addProjectID({arrayOfOrders: dbSerializedJSON, clientID: clientID, clientName: clientName});
+    // todo finish grabbing function pieces from other parser to put this one togetherh
+  });
 };
 
 pipeParser().catch(err => console.error(err));
