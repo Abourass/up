@@ -1,6 +1,6 @@
-function normalizePort(val) { // ========================================| Normalize a port into a number, string, or false
-  const port = parseInt(val, 10);
-  if (typeof port !== 'number') { return val; }
+function normalizePort(portNumber) { // ========================================| Normalize a port into a number, string, or false
+  const port = parseInt(portNumber, 10);
+  if (typeof port !== 'number') { return portNumber; }
   if (port >= 0) { return port; }
   return false;
 }

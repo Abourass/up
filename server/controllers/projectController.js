@@ -5,15 +5,20 @@ class ProjectController {
   async find(ctx) { ctx.body = await Project.find();} // Get all projects
   async findByClient(client) { // Find a Client
     try {
+      console.log(`${'->'.cyan} projectController${'.findByClient'.cyan}\(client: ${client.toString().blue}\)`);
       const project = await Project.findOne({client: client});
-      if (!project) {console.error('No projects found for this client') }
+      if (!project) { console.error(`${'->'.cyan} No projects found for this client, sending null profile to ProjectController.add ${'->'.red}`) } else { console.log(`${'->'.cyan} ${JSON.stringify(await project)} sending to ProjectController.add ${'->'.red}`); }
       return project;
     } catch (err) { console.error(err) }
   }
   async add(clientID, clientName) { // Create a new project
     try {
-      const currentProjects = await this.findByClient(clientID);
-      if (!currentProjects){
+      let currentProject = {};
+      console.log(`${'->'.red} projectController${'.add'.red}\(clientID: ${clientID.toString().blue}, clientName: ${clientName.cyan}\)`);
+      console.log(`${'->'.red} projectController${'.add'.red} | requesting clientProjects`);
+      const clientProjects = await Project.findOne({client: clientID});
+      if (!clientProjects){
+        console.log(`${'->'.red} No projects found for this clientProjects, creating a new project stack`);
         const newProject = new Project({
           projects: [{
             name: `${clientName}-${myGetDate()}`,
@@ -22,26 +27,32 @@ class ProjectController {
           client: clientID
         });
         await newProject.save();
-        return newProject.projects[0]._id;
+        currentProject.id = await newProject.projects[0]._id;
       } else {
-        const check = await this.check(clientID);
-        if (!check) {
-          currentProjects.projects.unshift({
+        console.log(`${'->'.red} projectController${'.add'.red} | requesting currentProject from ProjectController${'.check'.yellow}`);
+        currentProject = await this.check(clientProjects); // Return the project record if there is one
+        console.log(`${'->'.red} projectController${'.check'.red} returned: ${'->'.red} ${JSON.stringify(currentProject)}`);
+
+        if (currentProject.index == null && currentProject.id == null){
+          console.log(`${'->'.red} currentProject is null, but the client was found so insert a new project to the project stack`);
+          console.log(`${'->'.red} clientProjects is currently: ${JSON.stringify(clientProjects)}`);
+          clientProjects.projects.unshift({
             name: `${clientName}-${myGetDate()}`,
             date: Date.now(),
           });
-          await currentProjects.save();
-          return currentProjects.projects[0]._id;
-        } else {
-          return check.id;
+          await clientProjects.save();
+          console.log(`${'->'.red} clientProjects is now: ${JSON.stringify(clientProjects)}`);
+          currentProject.id = await clientProjects.projects[0]._id;
         }
+        console.log(`${'->'.red} currentProject.${'id'.cyan}: ${currentProject.id.toString()}`);
       }
+      return await currentProject.id.toString();
     } catch (err) { console.error(err) }
   }
   async check(client) {
+    console.log(`${'->'.yellow} projectController${'.check'.yellow}`);
     let projectIndex, projectID;
-    const currentProjects = await this.findByClient(client);
-    console.log('Current Projects: ', currentProjects);
+    console.log(`${'->'.yellow} projects: `, client.projects);
     const humanTime = timeStr => {
       const now = new Date(timeStr);
       return {
@@ -52,11 +63,9 @@ class ProjectController {
         year: now.getUTCFullYear()
       }
     };
-    currentProjects.projects.forEach((project, i) => {
+    client.projects.forEach((project, i) => {
       const time = humanTime(project.date);
-      console.log('The projects time stamp was: ', time);
       const today = humanTime(Date.now());
-      console.log('Today is: ', today);
       if (time.year === today.year
         && time.month === today.month
         && time.day === today.day
@@ -64,6 +73,9 @@ class ProjectController {
         console.log('Times match! At iterator: ', i);
         projectIndex = i;
         projectID = project._id;
+      } else {
+        projectIndex = null;
+        projectID = null;
       }
     });
     return {index: projectIndex, id: projectID};

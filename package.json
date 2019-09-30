@@ -27,6 +27,7 @@
     "@koa/multer": "^2.0.0",
     "@koa/router": "^8.0.1",
     "aws-sdk": "^2.536.0",
+    "colors": "^1.4.0",
     "core-js": "^3.2.1",
     "dotenv": "^8.1.0",
     "fast-xml-parser": "^3.12.20",
