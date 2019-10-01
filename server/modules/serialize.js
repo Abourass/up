@@ -4,6 +4,7 @@ const {asyncForEach} = require('./asyncForEach.js');
 const renameProp = (oldProp, newProp, {[oldProp]: old, ...others}) => ({[newProp]: old, ...others});
 
 const serializeJSON = async({arrayOfJSON, customDictionary, minConfidence, loggingLevel} = {}) => {
+  console.log(arrayOfJSON);
   try {
     const arrayOfCorrectedJSON = [];
     await asyncForEach(arrayOfJSON, async(json) => {

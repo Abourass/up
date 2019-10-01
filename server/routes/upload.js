@@ -35,13 +35,13 @@ router.post('/', jwt, orderUpload.array('upload', 20), async ctx => {
     };
 
     for (const file of files) {
+      const parserParams = {bucket: file.bucket, key: file.key, clientID: clientID, clientName: client};
       if (mimeTypes.spreadsheets.includes(file.mimetype)){
-        await timeout(5000, await xlsxParser({bucket: file.bucket, key: file.key, clientID: clientID, clientName: client}))
+        await timeout(5000, await xlsxParser(parserParams))
       } else if (file.mimetype === mimeTypes.xml){
-        const utf8File = s3Controller({bucket: file.bucket, key: file.key});
-        await timeout(5000, await xmlParser({file: utf8File, clientID: clientID, clientName: client}))
+        await timeout(5000, await xmlParser(parserParams))
       } else if (file.mimetype === mimeTypes.text) {
-        await timeout(5000, await pipeParser({bucket: file.bucket, key: file.key, clientID: clientID, clientName: client}))
+        await timeout(5000, await pipeParser(parserParams))
       } else {
         console.log('No parser for this file type, sending a link to the file to be emailed to orders')
       }
