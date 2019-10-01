@@ -1,5 +1,4 @@
 const parser = require('fast-xml-parser');
-const AWS = require('aws-sdk');
 const {addProjectID} = require('../modules/addProjectID.js');
 const serializeJSON = require('../modules/serialize.js');
 const he = require('he');
@@ -7,9 +6,8 @@ const fs = require('fs');
 const path = require('path');
 
 const config = JSON.parse(fs.readFileSync(path.join(__dirname, 'parser.config.json')));
-const s3 = new AWS.S3();
 
-const xmlParser = async({bucket: bucket, key: key, clientID: clientID, clientName: clientName} = {}) => {
+const xmlParser = async({file: file, clientID: clientID, clientName: clientName} = {}) => {
   try{
     const parseXML = (xmlData) => {
       const options = {
@@ -37,16 +35,9 @@ const xmlParser = async({bucket: bucket, key: key, clientID: clientID, clientNam
       return jsonObj
     };
 
-    s3.getObject({ Bucket: bucket, Key: key}, async(err, data) => {
-      if (err) console.error(err);
-      const xmlFile = await data.Body.toString();
-      const fileAsJSON = await parseXML(xmlFile); // convert it to JSON
-      const dbSerializedJSON = await serializeJSON({arrayOfJSON: fileAsJSON, customDictionary: config.customDictionary, minConfidence: config.minConfidence, loggingLevel: config.logging}); // serialize the JSON keys
-      await addProjectID({arrayOfOrders: dbSerializedJSON, clientID: clientID, clientName: clientName});
-    });
-
+    const fileAsJSON = await parseXML(file); // convert it to JSON
+    const dbSerializedJSON = await serializeJSON({arrayOfJSON: fileAsJSON, customDictionary: config.customDictionary, minConfidence: config.minConfidence, loggingLevel: config.logging}); // serialize the JSON keys
+    await addProjectID({arrayOfOrders: dbSerializedJSON, clientID: clientID, clientName: clientName});
   } catch (err) {console.error(err)}
 };
-
-
 module.exports = xmlParser;

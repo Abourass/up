@@ -3,6 +3,14 @@ const Schema = mongoose.Schema;
 
 const OrderSchema = new Schema({
   address: {type: String},
+  address_2: {type: String},
+  accessName: {type: String},
+  accessPhone: {type: String},
+  firstName: {type: String},
+  lastName: {type: String},
+  QA_processor: {type: String},
+  BPO_manager: {type: String},
+  rush_order: {type: String},
   city: {type: String},
   state: {type: String},
   borrower: {type: String},

@@ -5,17 +5,28 @@ class ProjectController {
   async find(ctx) { ctx.body = await Project.find();} // Get all projects
   async findByClient(client) { // Find a Client
     try {
-      console.log(`${'->'.cyan} projectController${'.findByClient'.cyan}\(client: ${client.toString().blue}\)`);
+      if(process.env.logging === 'verbose'){console.log(`${'->'.cyan} projectController${'.findByClient'.cyan}\(client: ${client.toString().blue}\)`);}
       const project = await Project.findOne({client: client});
       if (!project) { console.error(`${'->'.cyan} No projects found for this client, sending null profile to ProjectController.add ${'->'.red}`) } else { console.log(`${'->'.cyan} ${JSON.stringify(await project)} sending to ProjectController.add ${'->'.red}`); }
       return project;
     } catch (err) { console.error(err) }
   }
+  async findOneAndUpdate(clientID, clientName, currentProjects){
+    try {
+      const filter = {client: clientID};
+      const newProj = {
+        name: `${clientName}-${myGetDate()}`,
+        date: Date.now(),
+      };
+      let document = await Project.findOneAndUpdate(filter, {projects: currentProjects.unshift(newProj)}, {new: true});
+      return document;
+    }catch (err) {console.error(err)}
+  }
   async add(clientID, clientName) { // Create a new project
     try {
       let currentProject = {};
       console.log(`${'->'.red} projectController${'.add'.red}\(clientID: ${clientID.toString().blue}, clientName: ${clientName.cyan}\)`);
-      console.log(`${'->'.red} projectController${'.add'.red} | requesting clientProjects`);
+      if(process.env.logging === 'verbose'){console.log(`${'->'.red} projectController${'.add'.red} | requesting clientProjects`);}
       const clientProjects = await Project.findOne({client: clientID});
       if (!clientProjects){
         console.log(`${'->'.red} No projects found for this clientProjects, creating a new project stack`);
@@ -29,19 +40,20 @@ class ProjectController {
         await newProject.save();
         currentProject.id = await newProject.projects[0]._id;
       } else {
-        console.log(`${'->'.red} projectController${'.add'.red} | requesting currentProject from ProjectController${'.check'.yellow}`);
+        if(process.env.logging === 'verbose'){console.log(`${'->'.red} projectController${'.add'.red} | requesting currentProject from ProjectController${'.check'.yellow}`);}
         currentProject = await this.check(clientProjects); // Return the project record if there is one
-        console.log(`${'->'.red} projectController${'.check'.red} returned: ${'->'.red} ${JSON.stringify(currentProject)}`);
+
+        if (process.env.logging === 'verbose'){console.log(`${'->'.red} projectController${'.check'.red} returned: ${'->'.red} ${JSON.stringify(currentProject)}`);}
 
         if (currentProject.index == null && currentProject.id == null){
           console.log(`${'->'.red} currentProject is null, but the client was found so insert a new project to the project stack`);
-          console.log(`${'->'.red} clientProjects is currently: ${JSON.stringify(clientProjects)}`);
+          if(process.env.logging === 'verbose'){console.log(`${'->'.red} clientProjects is currently: ${JSON.stringify(clientProjects)}`);}
           clientProjects.projects.unshift({
             name: `${clientName}-${myGetDate()}`,
             date: Date.now(),
           });
           await clientProjects.save();
-          console.log(`${'->'.red} clientProjects is now: ${JSON.stringify(clientProjects)}`);
+          if(process.env.logging === 'verbose'){console.log(`${'->'.red} clientProjects is now: ${JSON.stringify(clientProjects)}`);}
           currentProject.id = await clientProjects.projects[0]._id;
         }
         console.log(`${'->'.red} currentProject.${'id'.cyan}: ${currentProject.id.toString()}`);
@@ -50,9 +62,9 @@ class ProjectController {
     } catch (err) { console.error(err) }
   }
   async check(client) {
-    console.log(`${'->'.yellow} projectController${'.check'.yellow}`);
+    if(process.env.logging === 'verbose'){console.log(`${'->'.yellow} projectController${'.check'.yellow}`);}
     let projectIndex, projectID;
-    console.log(`${'->'.yellow} projects: `, client.projects);
+    if(process.env.logging === 'verbose'){console.log(`${'->'.yellow} projects: `, client.projects);}
     const humanTime = timeStr => {
       const now = new Date(timeStr);
       return {
