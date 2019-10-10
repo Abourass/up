@@ -44,5 +44,9 @@ const OrderSchema = new Schema({
   added: {type: Date, default: Date.now()},
   project: {type: Schema.Types.ObjectId, ref: 'projects'},
   log: {type: Array},
+  projectStack: {
+    type: Schema.Types.ObjectId,
+    ref: 'projects'
+  }
 });
 module.exports = mongoose.model('orders', OrderSchema);

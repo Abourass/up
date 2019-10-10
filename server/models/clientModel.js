@@ -26,6 +26,9 @@ const ClientSchema = new Schema({
   log: {
     type: Array,
   },
+  duplicateCheckForDays:{
+    type: Number,
+  },
   subclient: [
     {
       _id: {

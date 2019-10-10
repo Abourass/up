@@ -29,6 +29,7 @@
     "aws-sdk": "^2.539.0",
     "colors": "^1.4.0",
     "core-js": "^3.2.1",
+    "dayjs": "^1.8.16",
     "dotenv": "^8.1.0",
     "fast-xml-parser": "^3.12.20",
     "fs-extra": "^8.1.0",
@@ -62,7 +63,9 @@
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-node": "^10.0.0",
     "eslint-plugin-security": "^1.4.0",
+    "mocha": "^6.2.1",
     "nodemon": "^1.19.3",
+    "nyc": "^14.1.1",
     "snyk": "^1.230.2"
   },
   "eslintConfig": {
