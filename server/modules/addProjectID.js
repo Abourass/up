@@ -1,4 +1,5 @@
 const {asyncForEach} = require('./asyncForEach.js');
+const tagAndVerify = require('./tagAndVerify');
 const projectController = require('../controllers/projectController');
 const insertMany = require('./insertManyToDB');
 const colors = require('colors');
@@ -23,6 +24,7 @@ const addProjectID = async({arrayOfOrders, clientID, clientName} = {}) => {
   };
 
   await addProjects();
-  await insertMany({orderArray: correctedArray});
+  const orderArray = await tagAndVerify(correctedArray);
+  await insertMany(orderArray);
 };
 module.exports = {addProjectID};

@@ -1,19 +1,28 @@
-const Lob = require('lob')(process.env.lobLiveSecret.toString());
+require('dotenv').config();
+const Lob = require('lob')('live_8b19cdaeae4efb48be8dafb4f7a1c1a03ea');
 
 class addressController {
-  async verify (addressToVerify){
+  async verify ({street: primary_line, city: city, state: state, zip: zip} = {}){
+    console.log({street: primary_line, city: city, state: state, zip: zip});
     const suggestions = {};
-    const avResponse = await Lob.usVerifications.verify(addressToVerify);
-    if (avResponse.primary_line !== addressToVerify.primary_line) {
+    const avResponse = await Lob.usVerifications.verify({primary_line: primary_line, city: city, state: state, zip_code: zip});
+    if (avResponse.primary_line !== primary_line) {
       if (avResponse.components.street_predirection.length > 0 || avResponse.components.street_postdirection.length > 0) {
         suggestions.street = 'cardinal direction';
       }
     }
-    if (avResponse.components.zip_code !== addressToVerify.zip_code) { suggestions.zip = 'Zip Code Changed'; }
-    if (avResponse.components.state !== addressToVerify.state) { suggestions.state = 'State changed'; }
+    if (avResponse.components.zip_code !== zip) { suggestions.zip = 'Zip Code Changed'; }
+    if (avResponse.components.state !== state) { suggestions.state = 'State changed'; }
     if (Object.keys(suggestions).length > 0) {
-      return console.log(`Changed fields: ${JSON.stringify(suggestions)} Verified Address: ${avResponse.primary_line} ${avResponse.secondary_line} ${avResponse.last_line}`);
+      return {
+        verificationResult: avResponse,
+        suggestions: suggestions
+      }
     }
-    return console.log(`No suggestions to make. Verified Address: ${avResponse.primary_line} ${avResponse.secondary_line} ${avResponse.last_line}`);
-  }
+    return {
+      verificationResult: avResponse,
+      suggestions: null
+    };
+  };
 }
+module.exports = addressController;
