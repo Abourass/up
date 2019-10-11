@@ -11,13 +11,6 @@
   "main": "./server/index.js",
   "scripts": {
     "serverStart": "nodemon -r dotenv/config ./server/index.js dotenv_config_path=.env",
-    "prestart": "node -r dotenv/config ./server/utils/buildClientDB.js dotenv_config_path=.env && node -r dotenv/config ./server/utils/buildProjectDB.js dotenv_config_path=.env",
-    "buildClient": "node -r dotenv/config ./server/utils/buildClientDB.js dotenv_config_path=.env",
-    "buildProjects": "node -r dotenv/config ./server/utils/buildProjectDB.js dotenv_config_path=.env",
-    "start": "node -r dotenv/config ./server/parsers/xlsxParser.js dotenv_config_path=.env",
-    "addressVerify": "node -r dotenv/config ./server/modules/addressVerification.js",
-    "pipeParser": "node ./server/parsers/pipeParser.js",
-    "xmlParser": "node ./server/parsers/xmlParser.js",
     "test": "snyk test"
   },
   "keywords": [],

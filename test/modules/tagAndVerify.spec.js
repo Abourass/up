@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const tagAndVerify = require('../../server/modules/tagAndVerify');
-mongoose.connect('mongodb+srv://Navi:repwed53@veritascluster-j268m.mongodb.net/assetval_beta?retryWrites=true', {useNewUrlParser: true,  useUnifiedTopology: true}).catch(err => console.error); // Create Database Connection
 
 const sampleOrders = [
   {"_id":{"$oid":"5d938f567d9a801a82322630"},"added":{"$date":{"$numberLong":"1569951565609"}},"log":[],"accessName":"PAMELA NEFF","accessPhone":"6104358109","address":"1282 HAMPSHIRE DR","city":"WHITEHALL","firstName":"PAMELA","lastName":"NEFF","loanKey":"235593","propertyType":"Drive By","rush_order":"No","state":"PA","zip":"18052","project":{"$oid":"5d938f567d9a801a8232262f"},"projectStack":{"$oid":"5d938f567d9a801a8232262e"},"__v":{"$numberInt":"0"}},

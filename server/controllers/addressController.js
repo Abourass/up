@@ -1,5 +1,5 @@
 require('dotenv').config();
-const Lob = require('lob')('live_8b19cdaeae4efb48be8dafb4f7a1c1a03ea');
+const Lob = require('lob')(process.env.lobLiveSecret.toString());
 
 class addressController {
   async verify ({street: primary_line, city: city, state: state, zip: zip} = {}){
