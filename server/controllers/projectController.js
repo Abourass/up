@@ -18,8 +18,7 @@ class ProjectController {
         name: `${clientName}-${myGetDate()}`,
         date: Date.now(),
       };
-      let document = await Project.findOneAndUpdate(filter, {projects: currentProjects.unshift(newProj)}, {new: true});
-      return document;
+      return await Project.findOneAndUpdate(filter, {projects: currentProjects.unshift(newProj)}, {new: true});
     }catch (err) {console.error(err)}
   }
   async add(clientID, clientName) { // Create a new project
@@ -29,7 +28,7 @@ class ProjectController {
       if(process.env.logging === 'verbose'){console.log(`${'->'.red} projectController${'.add'.red} | requesting clientProjects`);}
       const clientProjects = await Project.findOne({client: clientID});
       if (!clientProjects){
-        console.log(`${'->'.red} No projects found for this clientProjects, creating a new project stack`);
+        console.log(`${'->'.red} No projects found for this clientProjects, creating a new projectStack`);
         const newProject = new Project({
           projects: [{
             name: `${clientName}-${myGetDate()}`,
@@ -39,6 +38,7 @@ class ProjectController {
         });
         await newProject.save();
         currentProject.id = await newProject.projects[0]._id;
+        currentProject.stackID = await newProject._id;
       } else {
         if(process.env.logging === 'verbose'){console.log(`${'->'.red} projectController${'.add'.red} | requesting currentProject from ProjectController${'.check'.yellow}`);}
         currentProject = await this.check(clientProjects); // Return the project record if there is one
@@ -55,10 +55,11 @@ class ProjectController {
           await clientProjects.save();
           if(process.env.logging === 'verbose'){console.log(`${'->'.red} clientProjects is now: ${JSON.stringify(clientProjects)}`);}
           currentProject.id = await clientProjects.projects[0]._id;
+          currentProject.stackID = await newProject._id;
         }
         console.log(`${'->'.red} currentProject.${'id'.cyan}: ${currentProject.id.toString()}`);
       }
-      return await currentProject.id.toString();
+      return {projectID: currentProject.id.toString(), projectStackID: currentProject.stackID.toString()};
     } catch (err) { console.error(err) }
   }
   async check(client) {

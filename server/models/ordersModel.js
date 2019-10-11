@@ -47,6 +47,23 @@ const OrderSchema = new Schema({
   projectStack: {
     type: Schema.Types.ObjectId,
     ref: 'projects'
+  },
+  tags: {
+    type: Array
   }
+}, {
+  toObject: {
+    virtuals: true,
+  },
+  toJSON: {
+    virtuals: true,
+  },
 });
+
+OrderSchema.virtual('loanNum').get(function(){
+  if (this.loanKey.length > 0){return this.loanKey.trim()}
+  if (this.loanNumber.length > 0){return this.loanNumber.trim()}
+  return null
+});
+
 module.exports = mongoose.model('orders', OrderSchema);
