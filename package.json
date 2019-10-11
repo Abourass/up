@@ -9,7 +9,7 @@
   "description": "File upload and parsing engine for the Veritas platform",
   "main": "./server/index.js",
   "scripts": {
-    "serverStart": "nodemon -r dotenv/config ./server/index.js dotenv_config_path=.env",
+    "start": "nodemon -r dotenv/config ./server/index.js dotenv_config_path=.env",
     "prod": "pm2-runtime start ecosystem.config.js --env production -r dotenv/config dotenv_config_path=.env",
     "test": "snyk test"
   },
